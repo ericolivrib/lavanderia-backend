@@ -24,6 +24,7 @@ public class User {
     @AttributeOverride(name = "value", column = @Column(name = "password"))
     private Password password;
 
+    @Column(unique = true, nullable = false)
     private String registration;
 
     private Integer apartment;

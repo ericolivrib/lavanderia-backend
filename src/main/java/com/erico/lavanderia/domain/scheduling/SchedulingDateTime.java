@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public final class SchedulingDateTime extends ValueObject<LocalDateTime> {
 
     @Column(name = "date_time", columnDefinition = "TIMESTAMP", nullable = false)
-    private final LocalDateTime value;
+    private LocalDateTime value;
 
     public SchedulingDateTime(LocalDateTime dateTime) {
         boolean isInThePast = dateTime.isBefore(LocalDateTime.now());
@@ -21,8 +21,12 @@ public final class SchedulingDateTime extends ValueObject<LocalDateTime> {
         this.value = dateTime;
     }
 
+    protected SchedulingDateTime() {
+        super(null);
+    }
+
     @Override
-    public LocalDateTime getValue() {
-        return value;
+    public String toString() {
+        return value.toString();
     }
 }

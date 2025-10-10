@@ -4,7 +4,7 @@ import com.erico.lavanderia.application.mapper.SchedulingMapper;
 import com.erico.lavanderia.domain.scheduling.Scheduling;
 import com.erico.lavanderia.domain.scheduling.SchedulingDateTime;
 import com.erico.lavanderia.domain.scheduling.SchedulingRepository;
-import com.erico.lavanderia.application.dto.CreateSchedulingResponseDTO;
+import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
 import com.erico.lavanderia.domain.user.User;
 import com.erico.lavanderia.domain.user.UserRepository;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class SchedulingService {
         this.schedulingMapper = schedulingMapper;
     }
 
-    public CreateSchedulingResponseDTO createScheduling(UUID userId, LocalDateTime dateTime) {
+    public UserSchedulingResponseDTO createScheduling(UUID userId, LocalDateTime dateTime) {
         var optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isEmpty()) {
@@ -63,7 +63,7 @@ public class SchedulingService {
 
         schedulingRepository.save(scheduling);
 
-        return schedulingMapper.mapToDataTransferObject(scheduling, CreateSchedulingResponseDTO.class);
+        return schedulingMapper.mapToDataTransferObject(scheduling, UserSchedulingResponseDTO.class);
     }
 
 }

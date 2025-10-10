@@ -6,5 +6,5 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public record CreateSchedulingResponseDTO(UUID id, String userRegistration, LocalDate date, LocalTime time, SchedulingStatus status) {
+public record UserSchedulingResponseDTO(UUID id, String userRegistration, LocalDate date, LocalTime time, SchedulingStatus status) {
 }

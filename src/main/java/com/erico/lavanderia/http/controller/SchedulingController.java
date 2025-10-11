@@ -2,6 +2,7 @@ package com.erico.lavanderia.http.controller;
 
 import com.erico.lavanderia.application.dto.*;
 import com.erico.lavanderia.application.service.SchedulingService;
+import com.erico.lavanderia.http.docs.ChangeSchedulingDateTimeApiDoc;
 import com.erico.lavanderia.http.docs.CreateSchedulingApiDoc;
 import com.erico.lavanderia.http.docs.GetUserSchedulesApiDoc;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,7 @@ public class SchedulingController {
         return ResponseEntity.ok(responseBody);
     }
 
+    @ChangeSchedulingDateTimeApiDoc
     @PatchMapping("/v1/schedules/{id}")
     public ResponseEntity<ApiResponseBody<ChangeSchedulingDateTimeResponseDTO>> changeSchedulingDateTime(@PathVariable("id") UUID schedulingId, @RequestBody ChangeSchedulingDateTimeRequestDTO requestBody) {
         ChangeSchedulingDateTimeResponseDTO updatedScheduling = schedulingService.changeSchedulingDateTime(schedulingId, requestBody.dateTime());

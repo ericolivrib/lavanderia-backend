@@ -131,4 +131,26 @@ public class SchedulingService {
 
         return new ChangeSchedulingStatusResponseDTO(scheduling);
     }
+
+    public ChangeSchedulingStatusResponseDTO finishScheduling(UUID schedulingId) {
+        Optional<Scheduling> optionalScheduling = schedulingRepository.findById(schedulingId);
+
+        if (optionalScheduling.isEmpty()) {
+            LOG.info("Tentativa de finalização de agendamento inexistente (schedulingId={})", schedulingId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agendamento não encontrado para o finalização");
+        }
+
+        Scheduling scheduling =  optionalScheduling.get();
+
+        if (scheduling.getStatus() == SchedulingStatus.FINISHED) {
+            LOG.info("Tentativa de agendamento de status já finalizado");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "O agendamento informado já está finalizado");
+        }
+
+        scheduling.finish();
+
+        schedulingRepository.save(scheduling);
+
+        return new ChangeSchedulingStatusResponseDTO(scheduling);
+    }
 }

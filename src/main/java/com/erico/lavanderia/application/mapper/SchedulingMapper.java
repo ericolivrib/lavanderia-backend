@@ -1,31 +1,26 @@
 package com.erico.lavanderia.application.mapper;
 
 import com.erico.lavanderia.application.dto.ChangeSchedulingDateTimeResponseDTO;
-import com.erico.lavanderia.application.dto.UserResponseDTO;
 import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
 import com.erico.lavanderia.domain.scheduling.Scheduling;
 import com.erico.lavanderia.application.dto.CreateSchedulingResponseDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class SchedulingMapper {
 
     public <T> T mapToDataTransferObject(Scheduling scheduling, Class<T> targetClass) {
-        if (targetClass.equals(CreateSchedulingResponseDTO.class)) {
-            var dto = new CreateSchedulingResponseDTO(scheduling.getId(), scheduling.getUser().getId(), scheduling.getDateTime(), scheduling.getStatus());
-            return targetClass.cast(dto);
-        } else if (targetClass.equals(UserSchedulingResponseDTO.class)) {
-            var user = scheduling.getUser();
+        Map<Class<?>, Object> classMap = Map.of(
+                CreateSchedulingResponseDTO.class, new CreateSchedulingResponseDTO(scheduling),
+                UserSchedulingResponseDTO.class, new UserSchedulingResponseDTO(scheduling),
+                ChangeSchedulingDateTimeResponseDTO.class, new ChangeSchedulingDateTimeResponseDTO(scheduling)
+        );
 
-            var dto = new UserSchedulingResponseDTO(
-                    scheduling.getId(),
-                    new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), user.getRegistration(), user.getApartment()),
-                    scheduling.getDateTime(),
-                    scheduling.getStatus()
-            );
-            return targetClass.cast(dto);
-        } else if (targetClass.equals(ChangeSchedulingDateTimeResponseDTO.class)) {
-            var dto = new ChangeSchedulingDateTimeResponseDTO(scheduling.getId(), scheduling.getDateTime());
+        if (classMap.containsKey(targetClass)) {
+            var dto = classMap.get(targetClass);
             return targetClass.cast(dto);
         }
 

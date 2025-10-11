@@ -119,6 +119,12 @@ public class SchedulingService {
         }
 
         Scheduling scheduling =  optionalScheduling.get();
+
+        if (scheduling.getStatus() == SchedulingStatus.CANCELED) {
+            LOG.info("Tentativa de agendamento de status já cancelado");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "O agendamento informado já está cancelado");
+        }
+
         scheduling.cancel();
 
         schedulingRepository.save(scheduling);

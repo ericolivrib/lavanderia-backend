@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public final class SchedulingDateTime extends ValueObject<LocalDateTime> {
 
-    @Column(name = "date_time", columnDefinition = "TIMESTAMP", nullable = false)
+    @Column(name = "date_time", nullable = false)
     private LocalDateTime value;
 
     public SchedulingDateTime(LocalDateTime dateTime) {
@@ -23,6 +23,11 @@ public final class SchedulingDateTime extends ValueObject<LocalDateTime> {
 
     protected SchedulingDateTime() {
         super(null);
+    }
+
+    @Override
+    public LocalDateTime getValue() {
+        return value;
     }
 
     @Override

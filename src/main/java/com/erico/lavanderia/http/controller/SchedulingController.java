@@ -1,10 +1,7 @@
 package com.erico.lavanderia.http.controller;
 
-import com.erico.lavanderia.application.dto.ApiResponseBody;
-import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
+import com.erico.lavanderia.application.dto.*;
 import com.erico.lavanderia.application.service.SchedulingService;
-import com.erico.lavanderia.application.dto.CreateSchedulingRequestDTO;
-import com.erico.lavanderia.application.dto.CreateSchedulingResponseDTO;
 import com.erico.lavanderia.http.docs.CreateSchedulingApiDoc;
 import com.erico.lavanderia.http.docs.GetUserSchedulesApiDoc;
 import org.springframework.http.HttpStatus;
@@ -42,6 +39,14 @@ public class SchedulingController {
         String message = userSchedules.isEmpty() ? "Usuário não possui agendamentos" : "Agendamentos do usuário recuperados com sucesso";
         var responseBody = new ApiResponseBody<>(message, userSchedules);
 
+        return ResponseEntity.ok(responseBody);
+    }
+
+    @PatchMapping("/v1/schedules")
+    public ResponseEntity<ApiResponseBody<ChangeSchedulingDateTimeResponseDTO>> changeSchedulingDateTime(@PathVariable UUID schedulingId, @RequestBody ChangeSchedulingDateTimeRequestDTO requestBody) {
+        ChangeSchedulingDateTimeResponseDTO updatedScheduling = null;
+
+        var responseBody = new ApiResponseBody<>("Horário do agendamento alterado com sucesso", updatedScheduling);
         return ResponseEntity.ok(responseBody);
     }
 }

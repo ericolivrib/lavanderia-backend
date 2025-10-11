@@ -3,7 +3,6 @@ package com.erico.lavanderia.application.service;
 import com.erico.lavanderia.application.dto.ChangeSchedulingDateTimeResponseDTO;
 import com.erico.lavanderia.application.dto.ChangeSchedulingStatusResponseDTO;
 import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
-import com.erico.lavanderia.application.mapper.SchedulingMapper;
 import com.erico.lavanderia.domain.scheduling.Scheduling;
 import com.erico.lavanderia.domain.scheduling.SchedulingDateTime;
 import com.erico.lavanderia.domain.scheduling.SchedulingRepository;
@@ -121,7 +120,7 @@ public class SchedulingService {
         Scheduling scheduling =  optionalScheduling.get();
 
         if (scheduling.getStatus() == SchedulingStatus.CANCELED) {
-            LOG.info("Tentativa de agendamento de status já cancelado");
+            LOG.info("Tentativa de agendamento de status já cancelado (schedulingId={})", schedulingId);
             throw new ResponseStatusException(HttpStatus.CONFLICT, "O agendamento informado já está cancelado");
         }
 
@@ -143,7 +142,7 @@ public class SchedulingService {
         Scheduling scheduling =  optionalScheduling.get();
 
         if (scheduling.getStatus() == SchedulingStatus.FINISHED) {
-            LOG.info("Tentativa de agendamento de status já finalizado");
+            LOG.info("Tentativa de agendamento de status já finalizado (schedulingId={})", schedulingId);
             throw new ResponseStatusException(HttpStatus.CONFLICT, "O agendamento informado já está finalizado");
         }
 

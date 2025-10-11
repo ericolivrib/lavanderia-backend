@@ -1,12 +1,14 @@
 package com.erico.lavanderia.application.service;
 
 import com.erico.lavanderia.application.dto.ChangeSchedulingDateTimeResponseDTO;
+import com.erico.lavanderia.application.dto.ChangeSchedulingStatusResponseDTO;
 import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
 import com.erico.lavanderia.application.mapper.SchedulingMapper;
 import com.erico.lavanderia.domain.scheduling.Scheduling;
 import com.erico.lavanderia.domain.scheduling.SchedulingDateTime;
 import com.erico.lavanderia.domain.scheduling.SchedulingRepository;
 import com.erico.lavanderia.application.dto.CreateSchedulingResponseDTO;
+import com.erico.lavanderia.domain.scheduling.SchedulingStatus;
 import com.erico.lavanderia.domain.user.User;
 import com.erico.lavanderia.domain.user.UserRepository;
 import org.slf4j.Logger;
@@ -106,5 +108,21 @@ public class SchedulingService {
 
         schedulingRepository.save(scheduling);
         return new ChangeSchedulingDateTimeResponseDTO(scheduling);
+    }
+
+    public ChangeSchedulingStatusResponseDTO cancelScheduling(UUID schedulingId) {
+        Optional<Scheduling> optionalScheduling = schedulingRepository.findById(schedulingId);
+
+        if (optionalScheduling.isEmpty()) {
+            LOG.info("Tentativa de cancelamento de agendamento inexistente (schedulingId={})", schedulingId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agendamento não encontrado para o cancelamento");
+        }
+
+        Scheduling scheduling =  optionalScheduling.get();
+        scheduling.cancel();
+
+        schedulingRepository.save(scheduling);
+
+        return new ChangeSchedulingStatusResponseDTO(scheduling);
     }
 }

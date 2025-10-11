@@ -55,7 +55,7 @@ public class SchedulingController {
 
     @PutMapping("/v1/schedules/{id}/canceled")
     public ResponseEntity<ChangeSchedulingStatusResponseBody> cancelScheduling(@PathVariable("id") UUID schedulingId) {
-        ChangeSchedulingStatusResponseDTO canceledScheduling = null;
+        ChangeSchedulingStatusResponseDTO canceledScheduling = schedulingService.cancelScheduling(schedulingId);
 
         var responseBody = new ChangeSchedulingStatusResponseBody("Agendamento cancelado com sucesso", canceledScheduling);
         return ResponseEntity.ok(responseBody);

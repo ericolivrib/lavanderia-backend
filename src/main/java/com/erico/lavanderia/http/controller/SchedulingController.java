@@ -6,6 +6,7 @@ import com.erico.lavanderia.application.service.SchedulingService;
 import com.erico.lavanderia.application.dto.CreateSchedulingRequestDTO;
 import com.erico.lavanderia.application.dto.CreateSchedulingResponseDTO;
 import com.erico.lavanderia.http.docs.CreateSchedulingApiDoc;
+import com.erico.lavanderia.http.docs.GetUserSchedulesApiDoc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ public class SchedulingController {
                 .body(responseBody);
     }
 
+    @GetUserSchedulesApiDoc
     @GetMapping("/v1/users/{userId}/schedules")
     public ResponseEntity<ApiResponseBody<List<UserSchedulingResponseDTO>>> getUserSchedules(@PathVariable UUID userId) {
         List<UserSchedulingResponseDTO> userSchedules = schedulingService.getUserSchedules(userId);

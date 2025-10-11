@@ -42,8 +42,8 @@ public class SchedulingController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @PatchMapping("/v1/schedules")
-    public ResponseEntity<ApiResponseBody<ChangeSchedulingDateTimeResponseDTO>> changeSchedulingDateTime(@PathVariable UUID schedulingId, @RequestBody ChangeSchedulingDateTimeRequestDTO requestBody) {
+    @PatchMapping("/v1/schedules/{id}")
+    public ResponseEntity<ApiResponseBody<ChangeSchedulingDateTimeResponseDTO>> changeSchedulingDateTime(@PathVariable("id") UUID schedulingId, @RequestBody ChangeSchedulingDateTimeRequestDTO requestBody) {
         ChangeSchedulingDateTimeResponseDTO updatedScheduling = null;
 
         var responseBody = new ApiResponseBody<>("Horário do agendamento alterado com sucesso", updatedScheduling);

@@ -52,4 +52,12 @@ public class SchedulingController {
 
         return ResponseEntity.ok(responseBody);
     }
+
+    @PutMapping("/v1/schedules/{id}/canceled")
+    public ResponseEntity<ChangeSchedulingStatusResponseBody> cancelScheduling(@PathVariable("id") UUID schedulingId) {
+        ChangeSchedulingStatusResponseDTO canceledScheduling = null;
+
+        var responseBody = new ChangeSchedulingStatusResponseBody("Agendamento cancelado com sucesso", canceledScheduling);
+        return ResponseEntity.ok(responseBody);
+    }
 }

@@ -28,12 +28,9 @@ public class SchedulingService {
     private final SchedulingRepository schedulingRepository;
     private final UserRepository userRepository;
 
-    private final SchedulingMapper schedulingMapper;
-
-    public SchedulingService(SchedulingRepository schedulingRepository, UserRepository userRepository, SchedulingMapper schedulingMapper) {
+    public SchedulingService(SchedulingRepository schedulingRepository, UserRepository userRepository) {
         this.schedulingRepository = schedulingRepository;
         this.userRepository = userRepository;
-        this.schedulingMapper = schedulingMapper;
     }
 
     public CreateSchedulingResponseDTO createScheduling(UUID userId, LocalDateTime dateTime) {
@@ -67,7 +64,7 @@ public class SchedulingService {
 
         schedulingRepository.save(scheduling);
 
-        return schedulingMapper.mapToDataTransferObject(scheduling, CreateSchedulingResponseDTO.class);
+        return new CreateSchedulingResponseDTO(scheduling);
     }
 
     public List<UserSchedulingResponseDTO> getUserSchedules(UUID userId) {
@@ -81,7 +78,7 @@ public class SchedulingService {
         List<Scheduling> userSchedules = schedulingRepository.findByUserId(userId);
 
         return userSchedules.stream()
-                .map(scheduling -> schedulingMapper.mapToDataTransferObject(scheduling, UserSchedulingResponseDTO.class))
+                .map(UserSchedulingResponseDTO::new)
                 .toList();
     }
 
@@ -108,6 +105,6 @@ public class SchedulingService {
         }
 
         schedulingRepository.save(scheduling);
-        return schedulingMapper.mapToDataTransferObject(scheduling, ChangeSchedulingDateTimeResponseDTO.class);
+        return new ChangeSchedulingDateTimeResponseDTO(scheduling);
     }
 }

@@ -1,5 +1,6 @@
 package com.erico.lavanderia.application.service;
 
+import com.erico.lavanderia.application.dto.ChangeSchedulingDateTimeResponseDTO;
 import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
 import com.erico.lavanderia.application.mapper.SchedulingMapper;
 import com.erico.lavanderia.domain.scheduling.Scheduling;
@@ -82,5 +83,31 @@ public class SchedulingService {
         return userSchedules.stream()
                 .map(scheduling -> schedulingMapper.mapToDataTransferObject(scheduling, UserSchedulingResponseDTO.class))
                 .toList();
+    }
+
+    public ChangeSchedulingDateTimeResponseDTO changeSchedulingDateTime(UUID schedulingId, LocalDateTime dateTime) {
+        Optional<Scheduling> optionalScheduling = schedulingRepository.findById(schedulingId);
+
+        if (optionalScheduling.isEmpty()) {
+            LOG.info("Tentativa de alteração de horário para agendamento inexistente (schedulingId={})", schedulingId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agendamento não encontrado para alteração de horário");
+        }
+
+        Scheduling scheduling =  optionalScheduling.get();
+
+        if (dateTime.equals(scheduling.getDateTime())) {
+            LOG.info("Tentativa de alteração de horário para o mesmo horário (schedulingId={}; dateTime={}", schedulingId, dateTime);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "O agendamento informado já está registrado com este mesmo horário");
+        }
+
+        try {
+            scheduling.changeDateTime(dateTime);
+        } catch (IllegalArgumentException e) {
+            LOG.info("Tentativa de alteração de horário de agendamento para date e hora no passado (dateTime={})", dateTime);
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, e.getMessage());
+        }
+
+        schedulingRepository.save(scheduling);
+        return schedulingMapper.mapToDataTransferObject(scheduling, ChangeSchedulingDateTimeResponseDTO.class);
     }
 }

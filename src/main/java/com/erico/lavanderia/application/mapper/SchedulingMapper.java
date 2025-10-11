@@ -1,5 +1,6 @@
 package com.erico.lavanderia.application.mapper;
 
+import com.erico.lavanderia.application.dto.ChangeSchedulingDateTimeResponseDTO;
 import com.erico.lavanderia.application.dto.UserResponseDTO;
 import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
 import com.erico.lavanderia.domain.scheduling.Scheduling;
@@ -22,6 +23,9 @@ public class SchedulingMapper {
                     scheduling.getDateTime(),
                     scheduling.getStatus()
             );
+            return targetClass.cast(dto);
+        } else if (targetClass.equals(ChangeSchedulingDateTimeResponseDTO.class)) {
+            var dto = new ChangeSchedulingDateTimeResponseDTO(scheduling.getId(), scheduling.getDateTime());
             return targetClass.cast(dto);
         }
 

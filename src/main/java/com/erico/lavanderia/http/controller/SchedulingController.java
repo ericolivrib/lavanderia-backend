@@ -1,6 +1,7 @@
 package com.erico.lavanderia.http.controller;
 
 import com.erico.lavanderia.application.dto.ApiResponseBody;
+import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
 import com.erico.lavanderia.application.service.SchedulingService;
 import com.erico.lavanderia.application.dto.CreateSchedulingRequestDTO;
 import com.erico.lavanderia.application.dto.CreateSchedulingResponseDTO;
@@ -32,4 +33,13 @@ public class SchedulingController {
                 .body(responseBody);
     }
 
+    @GetMapping("/v1/users/{userId}/schedules")
+    public ResponseEntity<ApiResponseBody<List<UserSchedulingResponseDTO>>> getUserSchedules(@PathVariable UUID userId) {
+        List<UserSchedulingResponseDTO> userSchedules = schedulingService.getUserSchedules(userId);
+
+        String message = userSchedules.isEmpty() ? "Usuário não possui agendamentos" : "Agendamentos do usuário recuperados com sucesso";
+        var responseBody = new ApiResponseBody<>(message, userSchedules);
+
+        return ResponseEntity.ok(responseBody);
+    }
 }

@@ -1,5 +1,6 @@
 package com.erico.lavanderia.application.service;
 
+import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
 import com.erico.lavanderia.application.mapper.SchedulingMapper;
 import com.erico.lavanderia.domain.scheduling.Scheduling;
 import com.erico.lavanderia.domain.scheduling.SchedulingDateTime;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,7 +36,7 @@ public class SchedulingService {
     }
 
     public CreateSchedulingResponseDTO createScheduling(UUID userId, LocalDateTime dateTime) {
-        var optionalUser = userRepository.findById(userId);
+        Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isEmpty()) {
             LOG.info("Tentativa de criação de agendamento para usuário inexistente (userId={})", userId);
@@ -66,4 +69,18 @@ public class SchedulingService {
         return schedulingMapper.mapToDataTransferObject(scheduling, CreateSchedulingResponseDTO.class);
     }
 
+    public List<UserSchedulingResponseDTO> getUserSchedules(UUID userId) {
+        boolean userExists = userRepository.existsById(userId);
+
+        if (!userExists) {
+            LOG.info("Tentativa de recuperação de agendamentos de usuário inexistente (userId={})", userId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado para busca de agendamentos");
+        }
+
+        List<Scheduling> userSchedules = schedulingRepository.findByUserId(userId);
+
+        return userSchedules.stream()
+                .map(scheduling -> schedulingMapper.mapToDataTransferObject(scheduling, UserSchedulingResponseDTO.class))
+                .toList();
+    }
 }

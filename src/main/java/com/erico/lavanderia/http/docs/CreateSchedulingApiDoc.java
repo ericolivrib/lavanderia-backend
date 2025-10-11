@@ -1,7 +1,7 @@
 package com.erico.lavanderia.http.docs;
 
 import com.erico.lavanderia.application.dto.ApiErrorResponseBody;
-import com.erico.lavanderia.application.dto.CreateSchedulingResponseDTO;
+import com.erico.lavanderia.application.dto.CreateSchedulingResponseBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(tags = "schedules", summary = "Novo agendamento", description = "Cria um novo agendamento para o usuário", responses = {
         @ApiResponse(responseCode = "201", description = "Agendamento criado com sucesso", content = {
-                @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CreateSchedulingResponseDTO.class, description = "Agendamento recém criado"))
+                @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CreateSchedulingResponseBody.class, description = "Agendamento recém criado"))
         }),
         @ApiResponse(responseCode = "400", description = "Formado de Data e Hora ou do UUID do usuário estão inválidos", content = {
                 @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponseBody.class))

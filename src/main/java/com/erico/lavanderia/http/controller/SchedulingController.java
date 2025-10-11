@@ -23,10 +23,10 @@ public class SchedulingController {
 
     @CreateSchedulingApiDoc
     @PostMapping("/v1/users/{userId}/schedules")
-    public ResponseEntity<ApiResponseBody<CreateSchedulingResponseDTO>> createScheduling(@PathVariable UUID userId, @RequestBody CreateSchedulingRequestDTO requestBody) {
+    public ResponseEntity<CreateSchedulingResponseBody> createScheduling(@PathVariable UUID userId, @RequestBody CreateSchedulingRequestDTO requestBody) {
         CreateSchedulingResponseDTO createdScheduling = schedulingService.createScheduling(userId, requestBody.dateTime());
 
-        var responseBody = new ApiResponseBody<>("Agendamento criado com sucesso", createdScheduling);
+        var responseBody = new CreateSchedulingResponseBody("Agendamento criado com sucesso", createdScheduling);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(responseBody);
@@ -34,24 +34,21 @@ public class SchedulingController {
 
     @GetUserSchedulesApiDoc
     @GetMapping("/v1/users/{userId}/schedules")
-    public ResponseEntity<ApiResponseBody<List<UserSchedulingResponseDTO>>> getUserSchedules(@PathVariable UUID userId) {
+    public ResponseEntity<UserSchedulesResponseBody> getUserSchedules(@PathVariable UUID userId) {
         List<UserSchedulingResponseDTO> userSchedules = schedulingService.getUserSchedules(userId);
 
         String message = userSchedules.isEmpty() ? "Usuário não possui agendamentos" : "Agendamentos do usuário recuperados com sucesso";
-        var responseBody = new ApiResponseBody<>(message, userSchedules);
+        var responseBody = new UserSchedulesResponseBody(message, userSchedules);
 
         return ResponseEntity.ok(responseBody);
     }
 
     @ChangeSchedulingDateTimeApiDoc
     @PatchMapping("/v1/schedules/{id}")
-    public ResponseEntity<ApiResponseBody<ChangeSchedulingDateTimeResponseDTO>> changeSchedulingDateTime(@PathVariable("id") UUID schedulingId, @RequestBody ChangeSchedulingDateTimeRequestDTO requestBody) {
+    public ResponseEntity<ChangeSchedulingDateTimeResponseBody> changeSchedulingDateTime(@PathVariable("id") UUID schedulingId, @RequestBody ChangeSchedulingDateTimeRequestDTO requestBody) {
         ChangeSchedulingDateTimeResponseDTO updatedScheduling = schedulingService.changeSchedulingDateTime(schedulingId, requestBody.dateTime());
 
-        var responseBody = new ApiResponseBody<>(
-                "Horário do agendamento alterado com sucesso",
-                updatedScheduling
-        );
+        var responseBody = new ChangeSchedulingDateTimeResponseBody("Horário do agendamento alterado com sucesso", updatedScheduling);
 
         return ResponseEntity.ok(responseBody);
     }

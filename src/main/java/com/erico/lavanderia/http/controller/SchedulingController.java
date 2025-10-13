@@ -1,6 +1,8 @@
 package com.erico.lavanderia.http.controller;
 
 import com.erico.lavanderia.application.dto.*;
+import com.erico.lavanderia.application.dto.request.ChangeSchedulingDateTimeRequestDTO;
+import com.erico.lavanderia.application.dto.request.CreateSchedulingRequestDTO;
 import com.erico.lavanderia.application.service.SchedulingService;
 import com.erico.lavanderia.http.docs.ChangeSchedulingDateTimeApiDoc;
 import com.erico.lavanderia.http.docs.CreateSchedulingApiDoc;
@@ -61,7 +63,15 @@ public class SchedulingController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @PutMapping("/v1/schedules/{id}/finish")
+    @PutMapping("/v1/schedules/{id}/washing")
+    public ResponseEntity<ChangeSchedulingStatusResponseBody> startWashing(@PathVariable("id") UUID schedulingId) {
+        ChangeSchedulingStatusResponseDTO startedWashing = schedulingService.startWashing(schedulingId);
+
+        var responseBody = new ChangeSchedulingStatusResponseBody("Lavagem de roupas iniciada com sucesso", startedWashing);
+        return ResponseEntity.ok(responseBody);
+    }
+
+    @PutMapping("/v1/schedules/{id}/finished")
     public ResponseEntity<ChangeSchedulingStatusResponseBody> finishScheduling(@PathVariable("id") UUID schedulingId) {
         ChangeSchedulingStatusResponseDTO finishedScheduling = schedulingService.finishScheduling(schedulingId);
 

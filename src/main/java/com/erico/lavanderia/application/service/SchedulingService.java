@@ -174,4 +174,26 @@ public class SchedulingService {
 
         return new ChangeSchedulingStatusResponseDTO(scheduling);
     }
+
+    public ChangeSchedulingStatusResponseDTO interruptWashing(UUID schedulingId) {
+        Optional<Scheduling> optionalScheduling = schedulingRepository.findById(schedulingId);
+
+        if (optionalScheduling.isEmpty()) {
+            LOG.info("Tentativa de interrupção de lavagem de roupas para agendamento inexistente (schedulingId={})", schedulingId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Agendamento não encontrado para o interrupção da lavagem");
+        }
+
+        Scheduling scheduling =  optionalScheduling.get();
+
+        if (scheduling.getStatus() == SchedulingStatus.INTERRUPTED) {
+            LOG.info("Tentativa de interrupção de lavagem já interrompida (schedulingId={})", schedulingId);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "O agendamento informado já teve sua lavagem interrompida");
+        }
+
+        scheduling.interrupt();
+
+        schedulingRepository.save(scheduling);
+
+        return new ChangeSchedulingStatusResponseDTO(scheduling);
+    }
 }

@@ -78,4 +78,12 @@ public class SchedulingController {
         var responseBody = new ChangeSchedulingStatusResponseBody("Agendamento finalizado com sucesso", finishedScheduling);
         return ResponseEntity.ok(responseBody);
     }
+
+    @PutMapping("/v1/schedules/{id}/interrupted")
+    public ResponseEntity<ChangeSchedulingStatusResponseBody> interruptWashing(@PathVariable("id") UUID schedulingId) {
+        ChangeSchedulingStatusResponseDTO interruptedScheduling = schedulingService.interruptWashing(schedulingId);
+
+        var responseBody = new ChangeSchedulingStatusResponseBody("Lavagem interrompida com sucesso", interruptedScheduling);
+        return ResponseEntity.ok(responseBody);
+    }
 }

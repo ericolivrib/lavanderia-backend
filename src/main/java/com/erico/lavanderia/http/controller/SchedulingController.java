@@ -4,9 +4,7 @@ import com.erico.lavanderia.application.dto.*;
 import com.erico.lavanderia.application.dto.request.ChangeSchedulingDateTimeRequestDTO;
 import com.erico.lavanderia.application.dto.request.CreateSchedulingRequestDTO;
 import com.erico.lavanderia.application.service.SchedulingService;
-import com.erico.lavanderia.http.docs.ChangeSchedulingDateTimeApiDoc;
-import com.erico.lavanderia.http.docs.CreateSchedulingApiDoc;
-import com.erico.lavanderia.http.docs.GetUserSchedulesApiDoc;
+import com.erico.lavanderia.http.docs.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +53,7 @@ public class SchedulingController {
         return ResponseEntity.ok(responseBody);
     }
 
+    @CancelSchedulingApiDoc
     @PutMapping("/v1/schedules/{id}/canceled")
     public ResponseEntity<ChangeSchedulingStatusResponseBody> cancelScheduling(@PathVariable("id") UUID schedulingId) {
         ChangeSchedulingStatusResponseDTO canceledScheduling = schedulingService.cancelScheduling(schedulingId);
@@ -63,6 +62,7 @@ public class SchedulingController {
         return ResponseEntity.ok(responseBody);
     }
 
+    @StartWashingApiDoc
     @PutMapping("/v1/schedules/{id}/washing")
     public ResponseEntity<ChangeSchedulingStatusResponseBody> startWashing(@PathVariable("id") UUID schedulingId) {
         ChangeSchedulingStatusResponseDTO startedWashing = schedulingService.startWashing(schedulingId);
@@ -71,6 +71,7 @@ public class SchedulingController {
         return ResponseEntity.ok(responseBody);
     }
 
+    @FinishSchedulingApiDoc
     @PutMapping("/v1/schedules/{id}/finished")
     public ResponseEntity<ChangeSchedulingStatusResponseBody> finishScheduling(@PathVariable("id") UUID schedulingId) {
         ChangeSchedulingStatusResponseDTO finishedScheduling = schedulingService.finishScheduling(schedulingId);
@@ -79,6 +80,7 @@ public class SchedulingController {
         return ResponseEntity.ok(responseBody);
     }
 
+    @InterruptWashingApiDoc
     @PutMapping("/v1/schedules/{id}/interrupted")
     public ResponseEntity<ChangeSchedulingStatusResponseBody> interruptWashing(@PathVariable("id") UUID schedulingId) {
         ChangeSchedulingStatusResponseDTO interruptedScheduling = schedulingService.interruptWashing(schedulingId);

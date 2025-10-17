@@ -1,17 +1,14 @@
 package com.erico.lavanderia.application.service;
 
-import com.erico.lavanderia.application.dto.ChangeSchedulingDateTimeResponseDTO;
-import com.erico.lavanderia.application.dto.ChangeSchedulingStatusResponseDTO;
-import com.erico.lavanderia.application.dto.UserSchedulingResponseDTO;
-import com.erico.lavanderia.domain.scheduling.Scheduling;
-import com.erico.lavanderia.domain.scheduling.SchedulingDateTime;
-import com.erico.lavanderia.domain.scheduling.SchedulingRepository;
-import com.erico.lavanderia.application.dto.CreateSchedulingResponseDTO;
-import com.erico.lavanderia.domain.scheduling.SchedulingStatus;
+import com.erico.lavanderia.application.dto.*;
+import com.erico.lavanderia.domain.scheduling.*;
 import com.erico.lavanderia.domain.user.User;
 import com.erico.lavanderia.domain.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -66,6 +63,14 @@ public class SchedulingService {
         schedulingRepository.save(scheduling);
 
         return new CreateSchedulingResponseDTO(scheduling);
+    }
+
+    public Page<UserSchedulingResponseDTO> findSchedulesByFilters(SchedulingSearchFiltersDTO filters, Pageable pageable) {
+
+        Specification<Scheduling> spec = SchedulingSearchSpecification.withFilters(filters);
+        Page<Scheduling> schedulingPage = schedulingRepository.findAll(spec, pageable);
+
+        return schedulingPage.map(UserSchedulingResponseDTO::new);
     }
 
     public List<UserSchedulingResponseDTO> getUserSchedules(UUID userId) {

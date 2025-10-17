@@ -5,6 +5,9 @@ import com.erico.lavanderia.application.dto.request.ChangeSchedulingDateTimeRequ
 import com.erico.lavanderia.application.dto.request.CreateSchedulingRequestDTO;
 import com.erico.lavanderia.application.service.SchedulingService;
 import com.erico.lavanderia.http.docs.*;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,18 @@ public class SchedulingController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(responseBody);
+    }
+
+
+    @GetMapping("/schedules")
+    public ResponseEntity<SchedulePageResponseBody> getFilteredSchedules(@ModelAttribute SchedulingSearchFiltersDTO filters, @ParameterObject Pageable pageable) {
+        Page<UserSchedulingResponseDTO> schedules = schedulingService.findSchedulesByFilters(filters, pageable);
+
+        String message = schedules.isEmpty() ? "Não há agendamentos cadastrados" : "Agendamentos recuperados com sucesso";
+
+        var responseBody = new SchedulePageResponseBody(message, schedules);
+
+        return ResponseEntity.ok(responseBody);
     }
 
     @GetUserSchedulesApiDoc

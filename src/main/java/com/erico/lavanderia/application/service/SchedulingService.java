@@ -65,15 +65,15 @@ public class SchedulingService {
         return new CreateSchedulingResponseDTO(scheduling);
     }
 
-    public Page<UserSchedulingResponseDTO> findSchedulesByFilters(SchedulingSearchFiltersDTO filters, Pageable pageable) {
+    public Page<SchedulingResponseDTO> findSchedulesByFilters(SchedulingSearchFiltersDTO filters, Pageable pageable) {
 
         Specification<Scheduling> spec = SchedulingSearchSpecification.withFilters(filters);
         Page<Scheduling> schedulingPage = schedulingRepository.findAll(spec, pageable);
 
-        return schedulingPage.map(UserSchedulingResponseDTO::new);
+        return schedulingPage.map(SchedulingResponseDTO::new);
     }
 
-    public List<UserSchedulingResponseDTO> getUserSchedules(UUID userId) {
+    public List<SchedulingResponseDTO> getUserSchedules(UUID userId) {
         boolean userExists = userRepository.existsById(userId);
 
         if (!userExists) {
@@ -84,7 +84,7 @@ public class SchedulingService {
         List<Scheduling> userSchedules = schedulingRepository.findByUserId(userId);
 
         return userSchedules.stream()
-                .map(UserSchedulingResponseDTO::new)
+                .map(SchedulingResponseDTO::new)
                 .toList();
     }
 

@@ -7,14 +7,14 @@ import com.erico.lavanderia.domain.scheduling.SchedulingStatus;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record UserSchedulingResponseDTO(
+public record SchedulingResponseDTO(
         UUID id,
         UserResponseDTO user,
         LocalDateTime dateTime,
         SchedulingStatus status
 ) {
 
-    public UserSchedulingResponseDTO(Scheduling scheduling) {
+    public SchedulingResponseDTO(Scheduling scheduling) {
         this(scheduling.getId(), new UserResponseDTO(scheduling.getUser()), scheduling.getDateTime(), scheduling.getStatus());
     }
 }

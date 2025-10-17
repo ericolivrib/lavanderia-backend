@@ -4,6 +4,6 @@ import java.util.List;
 
 public record UserSchedulesResponseBody(
         String message,
-        List<UserSchedulingResponseDTO> data
-) implements ApiResponseBody<List<UserSchedulingResponseDTO>> {
+        List<SchedulingResponseDTO> data
+) implements ApiResponseBody<List<SchedulingResponseDTO>> {
 }

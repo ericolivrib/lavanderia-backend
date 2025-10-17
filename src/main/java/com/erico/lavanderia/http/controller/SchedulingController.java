@@ -38,7 +38,7 @@ public class SchedulingController {
 
     @GetMapping("/schedules")
     public ResponseEntity<SchedulePageResponseBody> getFilteredSchedules(@ModelAttribute SchedulingSearchFiltersDTO filters, @ParameterObject Pageable pageable) {
-        Page<UserSchedulingResponseDTO> schedules = schedulingService.findSchedulesByFilters(filters, pageable);
+        Page<SchedulingResponseDTO> schedules = schedulingService.findSchedulesByFilters(filters, pageable);
 
         String message = schedules.isEmpty() ? "Não há agendamentos cadastrados" : "Agendamentos recuperados com sucesso";
 
@@ -50,7 +50,7 @@ public class SchedulingController {
     @GetUserSchedulesApiDoc
     @GetMapping("/v1/users/{userId}/schedules")
     public ResponseEntity<UserSchedulesResponseBody> getUserSchedules(@PathVariable UUID userId) {
-        List<UserSchedulingResponseDTO> userSchedules = schedulingService.getUserSchedules(userId);
+        List<SchedulingResponseDTO> userSchedules = schedulingService.getUserSchedules(userId);
 
         String message = userSchedules.isEmpty() ? "Usuário não possui agendamentos" : "Agendamentos do usuário recuperados com sucesso";
         var responseBody = new UserSchedulesResponseBody(message, userSchedules);

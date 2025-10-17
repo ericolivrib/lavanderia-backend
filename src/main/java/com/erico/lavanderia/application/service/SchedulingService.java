@@ -31,7 +31,7 @@ public class SchedulingService {
         this.userRepository = userRepository;
     }
 
-    public CreateSchedulingResponseDTO createScheduling(UUID userId, LocalDateTime dateTime) {
+    public SchedulingCreateResponseDTO createScheduling(UUID userId, LocalDateTime dateTime) {
         Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isEmpty()) {
@@ -62,7 +62,7 @@ public class SchedulingService {
 
         schedulingRepository.save(scheduling);
 
-        return new CreateSchedulingResponseDTO(scheduling);
+        return new SchedulingCreateResponseDTO(scheduling);
     }
 
     public Page<SchedulingResponseDTO> findSchedulesByFilters(SchedulingSearchFiltersDTO filters, Pageable pageable) {
@@ -88,7 +88,7 @@ public class SchedulingService {
                 .toList();
     }
 
-    public ChangeSchedulingDateTimeResponseDTO changeSchedulingDateTime(UUID schedulingId, LocalDateTime dateTime) {
+    public SchedulingDateTimeChangeResponseDTO changeSchedulingDateTime(UUID schedulingId, LocalDateTime dateTime) {
         Optional<Scheduling> optionalScheduling = schedulingRepository.findById(schedulingId);
 
         if (optionalScheduling.isEmpty()) {
@@ -111,10 +111,10 @@ public class SchedulingService {
         }
 
         schedulingRepository.save(scheduling);
-        return new ChangeSchedulingDateTimeResponseDTO(scheduling);
+        return new SchedulingDateTimeChangeResponseDTO(scheduling);
     }
 
-    public ChangeSchedulingStatusResponseDTO cancelScheduling(UUID schedulingId) {
+    public SchedulingStatusChangeResponseDTO cancelScheduling(UUID schedulingId) {
         Optional<Scheduling> optionalScheduling = schedulingRepository.findById(schedulingId);
 
         if (optionalScheduling.isEmpty()) {
@@ -133,10 +133,10 @@ public class SchedulingService {
 
         schedulingRepository.save(scheduling);
 
-        return new ChangeSchedulingStatusResponseDTO(scheduling);
+        return new SchedulingStatusChangeResponseDTO(scheduling);
     }
 
-    public ChangeSchedulingStatusResponseDTO finishScheduling(UUID schedulingId) {
+    public SchedulingStatusChangeResponseDTO finishScheduling(UUID schedulingId) {
         Optional<Scheduling> optionalScheduling = schedulingRepository.findById(schedulingId);
 
         if (optionalScheduling.isEmpty()) {
@@ -155,10 +155,10 @@ public class SchedulingService {
 
         schedulingRepository.save(scheduling);
 
-        return new ChangeSchedulingStatusResponseDTO(scheduling);
+        return new SchedulingStatusChangeResponseDTO(scheduling);
     }
 
-    public ChangeSchedulingStatusResponseDTO startWashing(UUID schedulingId) {
+    public SchedulingStatusChangeResponseDTO startWashing(UUID schedulingId) {
         Optional<Scheduling> optionalScheduling = schedulingRepository.findById(schedulingId);
 
         if (optionalScheduling.isEmpty()) {
@@ -177,10 +177,10 @@ public class SchedulingService {
 
         schedulingRepository.save(scheduling);
 
-        return new ChangeSchedulingStatusResponseDTO(scheduling);
+        return new SchedulingStatusChangeResponseDTO(scheduling);
     }
 
-    public ChangeSchedulingStatusResponseDTO interruptWashing(UUID schedulingId) {
+    public SchedulingStatusChangeResponseDTO interruptWashing(UUID schedulingId) {
         Optional<Scheduling> optionalScheduling = schedulingRepository.findById(schedulingId);
 
         if (optionalScheduling.isEmpty()) {
@@ -199,6 +199,6 @@ public class SchedulingService {
 
         schedulingRepository.save(scheduling);
 
-        return new ChangeSchedulingStatusResponseDTO(scheduling);
+        return new SchedulingStatusChangeResponseDTO(scheduling);
     }
 }

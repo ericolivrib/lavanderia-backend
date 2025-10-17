@@ -6,9 +6,9 @@ import com.erico.lavanderia.domain.scheduling.SchedulingStatus;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record CreateSchedulingResponseDTO(UUID id, UUID userId, LocalDateTime dateTime, SchedulingStatus status) {
+public record SchedulingCreateResponseDTO(UUID id, UUID userId, LocalDateTime dateTime, SchedulingStatus status) {
 
-    public CreateSchedulingResponseDTO(Scheduling scheduling) {
+    public SchedulingCreateResponseDTO(Scheduling scheduling) {
         this(scheduling.getId(), scheduling.getUser().getId(), scheduling.getDateTime(), scheduling.getStatus());
     }
 

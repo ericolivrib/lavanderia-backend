@@ -1,7 +1,7 @@
 package com.erico.lavanderia.http.docs;
 
-import com.erico.lavanderia.application.dto.ApiErrorResponseBody;
-import com.erico.lavanderia.application.dto.CreateSchedulingResponseBody;
+import com.erico.lavanderia.application.dto.response.ApiErrorResponseBody;
+import com.erico.lavanderia.application.dto.response.CreateSchedulingResponseBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

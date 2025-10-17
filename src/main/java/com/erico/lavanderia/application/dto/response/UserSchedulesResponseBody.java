@@ -1,4 +1,6 @@
-package com.erico.lavanderia.application.dto;
+package com.erico.lavanderia.application.dto.response;
+
+import com.erico.lavanderia.application.dto.SchedulingResponseDTO;
 
 import java.util.List;
 

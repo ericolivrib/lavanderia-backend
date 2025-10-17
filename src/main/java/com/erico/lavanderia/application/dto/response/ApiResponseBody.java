@@ -1,4 +1,4 @@
-package com.erico.lavanderia.application.dto;
+package com.erico.lavanderia.application.dto.response;
 
 public interface ApiResponseBody<T> {
     String message();

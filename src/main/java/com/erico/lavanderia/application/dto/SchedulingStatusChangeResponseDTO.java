@@ -5,12 +5,12 @@ import com.erico.lavanderia.domain.scheduling.SchedulingStatus;
 
 import java.util.UUID;
 
-public record ChangeSchedulingStatusResponseDTO(
+public record SchedulingStatusChangeResponseDTO(
         UUID id,
         SchedulingStatus status
 ) {
 
-    public ChangeSchedulingStatusResponseDTO(Scheduling scheduling) {
+    public SchedulingStatusChangeResponseDTO(Scheduling scheduling) {
         this(scheduling.getId(), scheduling.getStatus());
     }
 }

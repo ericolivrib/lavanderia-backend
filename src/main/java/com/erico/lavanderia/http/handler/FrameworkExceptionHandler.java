@@ -1,6 +1,6 @@
 package com.erico.lavanderia.http.handler;
 
-import com.erico.lavanderia.application.dto.ApiErrorResponseBody;
+import com.erico.lavanderia.application.dto.response.ApiErrorResponseBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -5,12 +5,12 @@ import com.erico.lavanderia.domain.scheduling.Scheduling;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record ChangeSchedulingDateTimeResponseDTO(
+public record SchedulingDateTimeChangeResponseDTO(
         UUID id,
         LocalDateTime dateTime
 ) {
 
-    public ChangeSchedulingDateTimeResponseDTO(Scheduling scheduling) {
+    public SchedulingDateTimeChangeResponseDTO(Scheduling scheduling) {
         this(scheduling.getId(), scheduling.getDateTime());
     }
 }

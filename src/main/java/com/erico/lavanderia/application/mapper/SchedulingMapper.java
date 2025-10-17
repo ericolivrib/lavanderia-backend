@@ -1,9 +1,9 @@
 package com.erico.lavanderia.application.mapper;
 
-import com.erico.lavanderia.application.dto.ChangeSchedulingDateTimeResponseDTO;
+import com.erico.lavanderia.application.dto.SchedulingDateTimeChangeResponseDTO;
 import com.erico.lavanderia.application.dto.SchedulingResponseDTO;
 import com.erico.lavanderia.domain.scheduling.Scheduling;
-import com.erico.lavanderia.application.dto.CreateSchedulingResponseDTO;
+import com.erico.lavanderia.application.dto.SchedulingCreateResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -13,9 +13,9 @@ public class SchedulingMapper {
 
     public <T> T mapToDataTransferObject(Scheduling scheduling, Class<T> targetClass) {
         Map<Class<?>, Object> classMap = Map.of(
-                CreateSchedulingResponseDTO.class, new CreateSchedulingResponseDTO(scheduling),
+                SchedulingCreateResponseDTO.class, new SchedulingCreateResponseDTO(scheduling),
                 SchedulingResponseDTO.class, new SchedulingResponseDTO(scheduling),
-                ChangeSchedulingDateTimeResponseDTO.class, new ChangeSchedulingDateTimeResponseDTO(scheduling)
+                SchedulingDateTimeChangeResponseDTO.class, new SchedulingDateTimeChangeResponseDTO(scheduling)
         );
 
         if (classMap.containsKey(targetClass)) {

@@ -7,10 +7,11 @@ import java.util.UUID;
 
 public record SchedulingStatusChangeResponseDTO(
         UUID id,
-        SchedulingStatus status
-) {
+        SchedulingStatus newStatus,
+        SchedulingStatus oldStatus
+        ) {
 
-    public SchedulingStatusChangeResponseDTO(Scheduling scheduling) {
-        this(scheduling.getId(), scheduling.getStatus());
+    public SchedulingStatusChangeResponseDTO(Scheduling scheduling, SchedulingStatus oldStatus) {
+        this(scheduling.getId(), scheduling.getStatus(), oldStatus);
     }
 }

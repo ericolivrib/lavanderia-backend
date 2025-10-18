@@ -129,11 +129,12 @@ public class SchedulingService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "O agendamento informado já está cancelado");
         }
 
+        SchedulingStatus oldStatus = scheduling.getStatus();
         scheduling.cancel();
 
         schedulingRepository.save(scheduling);
 
-        return new SchedulingStatusChangeResponseDTO(scheduling);
+        return new SchedulingStatusChangeResponseDTO(scheduling, oldStatus);
     }
 
     public SchedulingStatusChangeResponseDTO finishScheduling(UUID schedulingId) {
@@ -151,11 +152,12 @@ public class SchedulingService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "O agendamento informado já está finalizado");
         }
 
+        SchedulingStatus oldStatus = scheduling.getStatus();
         scheduling.finish();
 
         schedulingRepository.save(scheduling);
 
-        return new SchedulingStatusChangeResponseDTO(scheduling);
+        return new SchedulingStatusChangeResponseDTO(scheduling, oldStatus);
     }
 
     public SchedulingStatusChangeResponseDTO startWashing(UUID schedulingId) {
@@ -175,9 +177,10 @@ public class SchedulingService {
 
         scheduling.startWashing();
 
+        SchedulingStatus oldStatus = scheduling.getStatus();
         schedulingRepository.save(scheduling);
 
-        return new SchedulingStatusChangeResponseDTO(scheduling);
+        return new SchedulingStatusChangeResponseDTO(scheduling, oldStatus);
     }
 
     public SchedulingStatusChangeResponseDTO interruptWashing(UUID schedulingId) {
@@ -195,10 +198,11 @@ public class SchedulingService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "O agendamento informado já teve sua lavagem interrompida");
         }
 
+        SchedulingStatus oldStatus = scheduling.getStatus();
         scheduling.interrupt();
 
         schedulingRepository.save(scheduling);
 
-        return new SchedulingStatusChangeResponseDTO(scheduling);
+        return new SchedulingStatusChangeResponseDTO(scheduling, oldStatus);
     }
 }

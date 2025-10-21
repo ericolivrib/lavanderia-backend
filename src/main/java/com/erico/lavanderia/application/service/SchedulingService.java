@@ -66,7 +66,6 @@ public class SchedulingService {
     }
 
     public Page<SchedulingResponseDTO> findSchedulesByFilters(SchedulingSearchFiltersDTO filters, Pageable pageable) {
-
         Specification<Scheduling> spec = SchedulingSearchSpecification.withFilters(filters);
         Page<Scheduling> schedulingPage = schedulingRepository.findAll(spec, pageable);
 
